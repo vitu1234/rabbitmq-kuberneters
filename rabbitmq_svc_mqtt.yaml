@@ -17,4 +17,3 @@ spec:
     app.kubernetes.io/name: rabbitmq
   sessionAffinity: None
   type: LoadBalancer
-
