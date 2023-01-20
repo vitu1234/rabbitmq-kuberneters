@@ -137,12 +137,19 @@ config:
             problem: 2
             critical: 3
   outputs:
-    - influxdb_v2:
-        urls:
-          - "http://influxdb.default.svc:8086"
-        token: Rz43Pst70Lp5_h2tKJG-pHvBYbtm55Ao3ih3Inz84nn8HpvD2lK1aE6SQjmq1QZazKBkrL98bBE_0W7hGNc0tA==
-        organization: "primary"
-        bucket: "mqtt_bucket"
+    # - influxdb_v2:
+    #     urls:
+    #       - "http://influxdb.default.svc:8086"
+    #     token: Rz43Pst70Lp5_h2tKJG-pHvBYbtm55Ao3ih3Inz84nn8HpvD2lK1aE6SQjmq1QZazKBkrL98bBE_0W7hGNc0tA==
+    #     organization: "primary"
+    #     bucket: "mqtt_bucket"
+    - mongodb:
+        dsn: mongodb://mongodb-service.default.svc:27017
+        authentication: "SCRAM"
+        username: "username"
+        password: "password"
+        database: "mqtt_bucket"
+        granularity: "minutes"
   inputs:
     - mqtt_consumer:
         servers:
@@ -155,8 +162,8 @@ config:
         data_format: "json"
 
         name_override: "sensors"
-        tag_keys:
-          - "flotta_egdedevice_id"
+        # tag_keys:
+        #   - "flotta_egdedevice_id"
 
         # name_prefix: "sensors_"
         # json_name_key: "flotta_egdedevice_id"
@@ -164,8 +171,8 @@ config:
         #   - "temperature"
         #   - "humidity"
         #   - "soil_moisture"
-        # json_string_fields: 
-        #   - "flotta_egdedevice_id"
+        json_string_fields: 
+          - "flotta_egdedevice_id"
 
     # - statsd:
     #     service_address: ":8125"
